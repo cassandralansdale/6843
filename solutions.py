@@ -17,6 +17,3 @@ def welcome_assignment_answers(question):
     elif question == "What layer of the TCP/IP model the protocol TCP belongs to? - The answer should be a numeric number":
         answer = "transport"
     return(answer)
-
-
-if __name__ == "__main__":
