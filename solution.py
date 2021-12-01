@@ -9,8 +9,8 @@ import binascii
 
 ICMP_ECHO_REQUEST = 8
 RTT = []
-pktSent =0
-pktRec = 0
+#pktSent =0
+#pktRec = 0
 
 def checksum(string):
     csum = 0
@@ -69,7 +69,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
 
 def sendOnePing(mySocket, destAddr, ID):
     # Header is type (8), code (8), checksum (16), id (16), sequence (16)
-    global pktSent
+    #global pktSent
     myChecksum = 0
     # Make a dummy header with a 0 checksum
     # struct -- Interpret strings as packed binary data
@@ -91,7 +91,7 @@ def sendOnePing(mySocket, destAddr, ID):
     packet = header + data
 
     mySocket.sendto(packet, (destAddr, 1))  # AF_INET address must be tuple, not str
-    pktSent += 1
+    #pktSent += 1
 
     # Both LISTS and TUPLES consist of a number of objects
     # which can be referenced by their position number within the object.
@@ -116,22 +116,14 @@ def ping(host, timeout=1):
     print("Pinging " + dest + " using Python:")
     print("")
     # Calculate vars values and return them
-    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
+    #vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
     # Send ping requests to a server separated by approximately one second
     for i in range(0,4):
         delay = doOnePing(dest, timeout)
         print(delay)
         time.sleep(1)  # one second
-        #print("RTT min: " + (min(RTT)))
-        #print("RTT max: " + (max(RTT)))
     return(delay)
-
-    #print(delay)
-    #print("RTT min: " + (min(RTT)))
-    #print("RTT max: " + (max(RTT)))
-    #avg = float((sum(RTT) / len(RTT)))
-    #print("RTT avg: " + str(avg))
-    return vars
+    #return vars
 
 if __name__ == '__main__':
     ping("google.co.il")
