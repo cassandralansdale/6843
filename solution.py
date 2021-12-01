@@ -25,8 +25,7 @@ def webServer(port=13331):
         
         #Send one HTTP header line into socket.
         #Fill in start
-        data = ("""HTTP/1.1 200 OK Content-Type: text/html 
-        <html> <body> Hello World </body> </html>""")
+        data = ("HTTP/1.1 200 OK Content-Type: text/html <html> <body> Hello World </body> </html>")
         connectionSocket.send(data.encode())
         #connectionSocket.send('<html> <body> 200 OK </body </html>'.encode())
         #Fill in end
@@ -41,7 +40,7 @@ def webServer(port=13331):
         # Send response message for file not found (404)
         #Fill in start
         
-        data = ('HTTP/1.1 404 Not Found \r\n')
+        data = ("HTTP/1.1 404 Not Found Content-Type: text/html <html> <body> 404 Not Found </body> </html> \r\n")
         connectionSocket.send(data.encode)
         #connectionSocket.send("<html><h1>404 Not Found</h1></html>")
         #Fill in end
