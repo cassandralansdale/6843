@@ -49,6 +49,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
 
         # Fill in start
         icmpHeader = recPacket[20:28]
+        icmpType, code, mychecksum, sequence = struct.unpack("bbHHh", icmpHeader)
         # Fetch the ICMP header from the IP packet
         
         if type != 8:
