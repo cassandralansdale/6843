@@ -4,10 +4,10 @@ from socket import *
 import sys
 
 
-def webServer(port=13331):
+def webServer(port=13331,):
   serverSocket = socket(AF_INET, SOCK_STREAM)
   #Prepare a server socket
-  serverSocket.bind(("", port))
+  serverSocket.bind(("127.0.0.1", port))
   #Fill in start
   serverSocket.listen(1)
   #Fill in end
@@ -18,14 +18,15 @@ def webServer(port=13331):
     connectionSocket, addr = serverSocket.accept()#Fill in start      #Fill in end
     try:
       try:
-        message = connectionSocket.recv(1024) #Fill in start    #Fill in end
+        message = connectionSocket.recv(13331) #Fill in start    #Fill in end
         filename = message.split()[1]
         f = open(filename[1:])
         outputdata = f.read() #Fill in start     #Fill in end
         
         #Send one HTTP header line into socket.
         #Fill in start
-        connectionSocket.send("HTTP/1.1 200 OK ")
+        data = ("HTTP/1.1 200 OK")
+        connectionSocket.send(data.encode())
         #Fill in end
 
         #Send the content of the requested file to the client
@@ -37,8 +38,10 @@ def webServer(port=13331):
       except IOError:
         # Send response message for file not found (404)
         #Fill in start
-        connectionSocket.send("HTTP/1.1 404 Not Found ".encode())
         
+        data = ("HTTP/1.1 404 Not Found")
+        connectionSocket.send(data.encode)
+        #connectionSocket.send("<html><h1>404 Not Found</h1></html>")
         #Fill in end
 
 
