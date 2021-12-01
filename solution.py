@@ -120,9 +120,9 @@ def ping(host, timeout=1):
         delay = doOnePing(dest, timeout)
         print(delay)
         time.sleep(1)  # one second
-    print(delay)
-    print("RTT min: " + (min(RTT)))
-    print("RTT max: " + (max(RTT)))
+    #print(delay)
+    #print("RTT min: " + (min(RTT)))
+    #print("RTT max: " + (max(RTT)))
     #avg = float((sum(RTT) / len(RTT)))
     #print("RTT avg: " + str(avg))
     #return vars
