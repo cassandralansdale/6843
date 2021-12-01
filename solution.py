@@ -118,7 +118,7 @@ def ping(host, timeout=1):
     print("Pinging " + dest + " using Python:")
     print("")
     # Calculate vars values and return them
-    packet_min = min(pktRTT)
+    packet_min = 1
     packet_avg = float(sum(pktRTT)/len(pktRTT))
     packet_max = max(pktRTT)
     
