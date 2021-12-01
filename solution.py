@@ -8,7 +8,7 @@ import binascii
 # Should use stdev
 
 ICMP_ECHO_REQUEST = 8
-RTT = []
+pktRTT = []
 pktSent = 0
 pktRec = 0
 
@@ -38,7 +38,7 @@ def checksum(string):
 
 def receiveOnePing(mySocket, ID, timeout, destAddr):
     timeLeft = timeout
-    global pktRec, RTT
+    global pktRec, pktRTT
     while 1:
         startedSelect = time.time()
         whatReady = select.select([mySocket], [], [], timeLeft)
@@ -57,7 +57,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
           x = struct.calcsize('d')
           data = struct.unpack('d', recPacket[28:28 + x])[0]
           temp = (timeReceived - data)
-          RTT.append(1)
+          pktRTT.append(temp)
           pktRec += 1
           return timeReceived - data
 
@@ -118,9 +118,9 @@ def ping(host, timeout=1):
     print("Pinging " + dest + " using Python:")
     print("")
     # Calculate vars values and return them
-    packet_min = min(RTT)
-    packet_avg = float(sum(RTT)/len(RTT))
-    packet_max = max(RTT)
+    packet_min = min(pktRTT)
+    packet_avg = float(sum(pktRTT)/len(pktRTT))
+    packet_max = max(pktRTT)
     
     vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
     # Send ping requests to a server separated by approximately one second
