@@ -38,7 +38,7 @@ def checksum(string):
 
 def receiveOnePing(mySocket, ID, timeout, destAddr):
     timeLeft = timeout
-    global pktRec
+    #global pktRec
     while 1:
         startedSelect = time.time()
         whatReady = select.select([mySocket], [], [], timeLeft)
@@ -56,7 +56,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
           x = struct.calcsize('d')
           data = struct.unpack('d', recPacket[28:28 + x])[0]
           RTT.append(timeReceived - data)
-          pktRec += 1
+          #pktRec += 1
           return timeReceived - data
         
         # Fetch the ICMP header from the IP packet
