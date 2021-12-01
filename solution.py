@@ -9,8 +9,7 @@ import binascii
 
 ICMP_ECHO_REQUEST = 8
 RTT = []
-pktSent = 0
-pktRecv = 0 
+ 
 
 def checksum(string):
     csum = 0
@@ -56,7 +55,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
           x = struct.calcsize('d')
           data = struct.unpack('d', recPacket[28:28 + x])[0]
           RTT.append(timeReceived - data)
-          pktRecv += 1
+        
           return timeReceived - data
         # Fetch the ICMP header from the IP packet
 
