@@ -9,8 +9,8 @@ import binascii
 
 ICMP_ECHO_REQUEST = 8
 RTT = []
-#pktSent =0
-#pktRec = 0
+pktSent = 0
+pktRec = 0
 
 def checksum(string):
     csum = 0
@@ -38,7 +38,7 @@ def checksum(string):
 
 def receiveOnePing(mySocket, ID, timeout, destAddr):
     timeLeft = timeout
-    #global pktRec
+    global pktRec, RTT
     while 1:
         startedSelect = time.time()
         whatReady = select.select([mySocket], [], [], timeLeft)
@@ -50,26 +50,26 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         recPacket, addr = mySocket.recvfrom(1024)
 
         # Fill in start
+
         header = recPacket[20:28]
         type, code, checksum, packetID, sequence = struct.unpack("bbHHh", header)
         if packetID == ID:
           x = struct.calcsize('d')
           data = struct.unpack('d', recPacket[28:28 + x])[0]
           RTT.append(timeReceived - data)
-          #pktRec += 1
+          pktRec += 1
           return timeReceived - data
-        
-        # Fetch the ICMP header from the IP packet
 
         # Fill in end
         timeLeft = timeLeft - howLongInSelect
         if timeLeft <= 0:
             return "Request timed out."
-
+            
 
 def sendOnePing(mySocket, destAddr, ID):
     # Header is type (8), code (8), checksum (16), id (16), sequence (16)
-    #global pktSent
+    global pktSent
+
     myChecksum = 0
     # Make a dummy header with a 0 checksum
     # struct -- Interpret strings as packed binary data
@@ -91,7 +91,7 @@ def sendOnePing(mySocket, destAddr, ID):
     packet = header + data
 
     mySocket.sendto(packet, (destAddr, 1))  # AF_INET address must be tuple, not str
-    #pktSent += 1
+    pktSent += 1
 
     # Both LISTS and TUPLES consist of a number of objects
     # which can be referenced by their position number within the object.
@@ -111,19 +111,24 @@ def doOnePing(destAddr, timeout):
 
 
 def ping(host, timeout=1):
+    
     # timeout=1 means: If one second goes by without a reply from the server,  	# the client assumes that either the client's ping or the server's pong is lost
     dest = gethostbyname(host)
     print("Pinging " + dest + " using Python:")
     print("")
     # Calculate vars values and return them
-    #vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
+    packet_min = min(RTT)
+    packet_avg = float(sum(RTT)/len(RTT))
+    packet_max = max(RTT)
+    
+    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
     # Send ping requests to a server separated by approximately one second
     for i in range(0,4):
         delay = doOnePing(dest, timeout)
         print(delay)
         time.sleep(1)  # one second
-    return(delay)
-    #return vars
+
+    return vars
 
 if __name__ == '__main__':
     ping("google.co.il")
