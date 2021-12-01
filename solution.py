@@ -90,7 +90,7 @@ def sendOnePing(mySocket, destAddr, ID):
     packet = header + data
 
     mySocket.sendto(packet, (destAddr, 1))  # AF_INET address must be tuple, not str
-    pktSent += 1
+    #pktSent += 1
 
     # Both LISTS and TUPLES consist of a number of objects
     # which can be referenced by their position number within the object.
