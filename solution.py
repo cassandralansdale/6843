@@ -123,8 +123,8 @@ def ping(host, timeout=1):
     print(delay)
     print("RTT min: " + (min(RTT)))
     print("RTT max: " + (max(RTT)))
-    avg = float((sum(RTT) / len(RTT)))
-    print("RTT avg: " + str(avg))
+    #avg = float((sum(RTT) / len(RTT)))
+    #print("RTT avg: " + str(avg))
     #return vars
 
 if __name__ == '__main__':
