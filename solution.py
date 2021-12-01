@@ -122,8 +122,8 @@ def ping(host, timeout=1):
         delay = doOnePing(dest, timeout)
         print(delay)
         time.sleep(1)  # one second
-        print("RTT min: " + (min(RTT)))
-        print("RTT max: " + (max(RTT)))
+        #print("RTT min: " + (min(RTT)))
+        #print("RTT max: " + (max(RTT)))
         return(delay)
 
     #print(delay)
