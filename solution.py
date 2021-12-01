@@ -56,6 +56,8 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
             z = struct.calcsize("d")
             times = struct.unpack("d", recPacket[28:28 + z])[0]
             return timeReceived - times
+        else:
+            return
 
         # Fill in end
         timeLeft = timeLeft - howLongInSelect
