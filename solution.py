@@ -56,7 +56,8 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         if packetID == ID:
           x = struct.calcsize('d')
           data = struct.unpack('d', recPacket[28:28 + x])[0]
-          RTT.append(timeReceived - data)
+          temp = (timeReceived - data)
+          RTT.append(temp)
           pktRec += 1
           return timeReceived - data
 
