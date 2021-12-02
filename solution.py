@@ -5,7 +5,7 @@ import struct
 import time
 import select
 import binascii
-import statistics
+from statistics import stdev
 # Should use stdev
 
 ICMP_ECHO_REQUEST = 8
@@ -135,12 +135,17 @@ def ping(host, timeout=1):
     #for x in range(len(pktRTT)):
      #   print("----------")
       #  print(pktRTT[x])
+    #print("\n\n\n ------- \n\n\n")
 
     packet_min = min(pktRTT)
-    print(pktRTT)
+    #print(packet_min)
     packet_avg = sum(pktRTT)/len(pktRTT)
+    #print(packet_avg)
     packet_max = max(pktRTT)
-    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2))]
+    #print(packet_max)
+    stdev_var = stdev(pktRTT)
+    #print(stdev_var)
+    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)), str(round(stdev_var,2))]
 
     return vars
 
