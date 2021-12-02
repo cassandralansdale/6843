@@ -23,19 +23,6 @@ print(recv1)
 if recv1[:3] != '250':
     print('250 reply not received from server.')
 
-
-#Info for username and password
-username =  "abc@example.com"                     #the username for your server
-password = "pswd"                                    #the password for your server, changed here
-base64_str = ("\x00"+username+"\x00"+password).encode()
-base64_str = base64.b64encode(base64_str)
-authMsg = "AUTH PLAIN ".encode()+base64_str+"\r\n".encode()
-clientSocket.send(authMsg)
-recv_auth = clientSocket.recv(1024)
-print(recv_auth.decode())
-
-
-
 # Send MAIL FROM command and print server response.
 mailFrom = "MAIL FROM: <anyemailid@gmail.com> \r\n"
 clientSocket.send(mailFrom.encode())
