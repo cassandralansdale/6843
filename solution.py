@@ -57,8 +57,6 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         if packetID == ID:
           x = struct.calcsize('d')
           data = struct.unpack('d', recPacket[28:28 + x])[0]
-          temp = (timeReceived - data)
-          pktRTT.append(temp)
           pktRec += 1
           return timeReceived - data
 
@@ -109,6 +107,7 @@ def doOnePing(destAddr, timeout):
     sendOnePing(mySocket, destAddr, myID)
     delay = receiveOnePing(mySocket, myID, timeout, destAddr)
     mySocket.close()
+    pktRTT.append(delay)
     return delay
 
 
@@ -118,17 +117,30 @@ def ping(host, timeout=1):
     dest = gethostbyname(host)
     print("Pinging " + dest + " using Python:")
     print("")
+    
+   
     # Calculate vars values and return them
-    packet_min = min(pktRTT)
-    packet_avg = float(sum(pktRTT)/len(pktRTT))
-    packet_max = max(pktRTT)
+    #packet_min = min(pktRTT)
+    #print(pktRTT)
+    #packet_avg = sum(pktRTT)/len(pktRTT)
+    #packet_max = max(pktRTT)
     stdev_var = 1
-    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2))]
+    #vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2))]
     # Send ping requests to a server separated by approximately one second
     for i in range(0,4):
         delay = doOnePing(dest, timeout)
         print(delay)
         time.sleep(1)  # one second
+    
+    #for x in range(len(pktRTT)):
+     #   print("----------")
+      #  print(pktRTT[x])
+
+    packet_min = min(pktRTT)
+    print(pktRTT)
+    packet_avg = sum(pktRTT)/len(pktRTT)
+    packet_max = max(pktRTT)
+    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2))]
 
     return vars
 
