@@ -1,3 +1,5 @@
+#Finished
+
 from socket import *
 import os
 import sys
@@ -5,10 +7,13 @@ import struct
 import time
 import select
 import binascii
+from statistics import stdev
 # Should use stdev
 
 ICMP_ECHO_REQUEST = 8
-
+pktRTT = []
+pktSent = 0
+pktRec = 0
 
 def checksum(string):
     csum = 0
@@ -36,7 +41,7 @@ def checksum(string):
 
 def receiveOnePing(mySocket, ID, timeout, destAddr):
     timeLeft = timeout
-
+    global pktRec, pktRTT
     while 1:
         startedSelect = time.time()
         whatReady = select.select([mySocket], [], [], timeLeft)
@@ -54,6 +59,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         if packetID == ID:
           x = struct.calcsize('d')
           data = struct.unpack('d', recPacket[28:28 + x])[0]
+          pktRec += 1
           return timeReceived - data
 
         # Fill in end
@@ -64,6 +70,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
 
 def sendOnePing(mySocket, destAddr, ID):
     # Header is type (8), code (8), checksum (16), id (16), sequence (16)
+    global pktSent
 
     myChecksum = 0
     # Make a dummy header with a 0 checksum
@@ -86,7 +93,7 @@ def sendOnePing(mySocket, destAddr, ID):
     packet = header + data
 
     mySocket.sendto(packet, (destAddr, 1))  # AF_INET address must be tuple, not str
-
+    pktSent += 1
 
     # Both LISTS and TUPLES consist of a number of objects
     # which can be referenced by their position number within the object.
@@ -102,21 +109,45 @@ def doOnePing(destAddr, timeout):
     sendOnePing(mySocket, destAddr, myID)
     delay = receiveOnePing(mySocket, myID, timeout, destAddr)
     mySocket.close()
+    pktRTT.append(delay)
     return delay
 
 
 def ping(host, timeout=1):
+    
     # timeout=1 means: If one second goes by without a reply from the server,  	# the client assumes that either the client's ping or the server's pong is lost
     dest = gethostbyname(host)
     print("Pinging " + dest + " using Python:")
     print("")
+    
+   
     # Calculate vars values and return them
-    #  vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
+    #packet_min = min(pktRTT)
+    #print(pktRTT)
+    #packet_avg = sum(pktRTT)/len(pktRTT)
+    #packet_max = max(pktRTT)
+    stdev_var = 1
+    #vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2))]
     # Send ping requests to a server separated by approximately one second
     for i in range(0,4):
         delay = doOnePing(dest, timeout)
         print(delay)
         time.sleep(1)  # one second
+    
+    #for x in range(len(pktRTT)):
+     #   print("----------")
+      #  print(pktRTT[x])
+    #print("\n\n\n ------- \n\n\n")
+
+    packet_min = min(pktRTT) * 1000
+    #print(packet_min)
+    packet_avg = sum(pktRTT)/len(pktRTT) * 1000
+    #print(packet_avg)
+    packet_max = max(pktRTT) * 1000
+    #print(packet_max)
+    stdev_var = stdev(pktRTT) * 1000
+    #print(stdev_var)
+    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)), str(round(stdev_var,2))]
 
     return vars
 
