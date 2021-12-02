@@ -30,7 +30,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
 
     # Send MAIL FROM command and print server response.
     # Fill in start
-    mailFrom = "<mail@mail.com> \r\n"
+    mailFrom = "MAIL FROM: <mail@mail.com> \r\n"
     clientSocket.send(mailFrom.encode())
     recv2 = clientSocket.recv(2024)
     print(recv2)
@@ -40,7 +40,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
 
     # Send RCPT TO command and print server response.
     # Fill in start
-    rcptTo = "<mail@mail.com> \r\n"
+    rcptTo = "RCPT TO: <mail@mail.com> \r\n"
     clientSocket.send(rcptTo.encode())
     recv3 = clientSocket.recv(1024)
     print(recv3)
@@ -50,7 +50,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
 
     # Send DATA command and print server response.
     # Fill in start
-    data = "XXX \r\n"
+    data = "DATA <XXX> \r\n"
     clientSocket.send(data.encode())
     recv4 = clientSocket.recv(1024)
     print(recv4)
