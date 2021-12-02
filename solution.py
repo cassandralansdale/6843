@@ -122,14 +122,16 @@ def get_route(hostname):
                 #Fill in end
                 try: #try to fetch the hostname
                     #Fill in start
-                    n1 = socket.gethostbyaddr(addr)[0]
+                    """n1 = socket.gethostbyaddr(addr)[0]
                     temp = n1.split('.')[0]
                     if (n1 == temp):
                         n1 = ""
+                        """
+                    n1 = gethostbyaddr([0])[0]
                     #Fill in end
                 except herror:   #if the host does not provide a hostname
                     #Fill in start
-                    temp = addr
+                    #temp = addr
                     n1 = "Not available"
                     #Fill in end
 
