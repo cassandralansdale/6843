@@ -33,8 +33,7 @@ authMsg = "AUTH PLAIN ".encode()+base64_str+"\r\n".encode()
 clientSocket.send(authMsg)
 recv_auth = clientSocket.recv(1024)
 print(recv_auth.decode())
-if recv1[:3] != '250':
-    print('250 reply not received from server.')
+
 
 
 # Send MAIL FROM command and print server response.
@@ -42,24 +41,21 @@ mailFrom = "MAIL FROM: <anyemailid@gmail.com> \r\n"
 clientSocket.send(mailFrom.encode())
 recv2 = clientSocket.recv(1024)
 #print("After MAIL FROM command: "+recv2)
-if recv1[:3] != '250':
-    print('250 reply not received from server.')
+
 
 # Send RCPT TO command and print server response.
 rcptTo = "RCPT TO: <destination@gmail.com> \r\n"
 clientSocket.send(rcptTo.encode())
 recv3 = clientSocket.recv(1024)
 #print("After RCPT TO command: "+recv3)
-if recv1[:3] != '250':
-    print('250 reply not received from server.')
+
 
 # Send DATA command and print server response.
 data = "DATA\r\n"
 clientSocket.send(data.encode())
 recv4 = clientSocket.recv(1024)
 #print("After DATA command: "+recv4)
-if recv1[:3] != '250':
-    print('250 reply not received from server.')
+
 
 # Send message data.
 subject = "Subject: SMTP mail client testing \r\n\r\n" 
@@ -68,8 +64,7 @@ clientSocket.send(msg.encode())
 clientSocket.send(endmsg.encode())
 recv_msg = clientSocket.recv(1024)
 #print("Response after sending message body:"+recv_msg.decode())
-if recv1[:3] != '250':
-    print('250 reply not received from server.')
+
 
 # Send QUIT command and get server response.
 clientSocket.send("QUIT\r\n".encode())
