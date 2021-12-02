@@ -64,8 +64,7 @@ if recv1[:3] != '250':
 # Send message data.
 subject = "Subject: SMTP mail client testing \r\n\r\n" 
 clientSocket.send(subject.encode())
-message = raw_input("Enter your message: \r\n")
-clientSocket.send(message.encode())
+clientSocket.send(msg.encode())
 clientSocket.send(endmsg.encode())
 recv_msg = clientSocket.recv(1024)
 print("Response after sending message body:"+recv_msg.decode())
