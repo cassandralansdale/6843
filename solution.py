@@ -23,7 +23,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Send HELO command and print server response.
     heloCommand = 'HELO Alice\r\n'
     clientSocket.send(heloCommand.encode())
-    recv1 = clientSocket.recv(1024)
+    recv1 = clientSocket.recv(1024).decode()
     print(recv1)
     
 
@@ -31,7 +31,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Fill in start
     mailFrom = "MAIL FROM: <mail@mail.com> \r\n"
     clientSocket.send(mailFrom.encode())
-    recv2 = clientSocket.recv(2024)
+    recv2 = clientSocket.recv(2024).decode()
     print(recv2)
     
 
@@ -39,7 +39,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Fill in start
     rcptTo = "RCPT TO: <mail@mail.com> \r\n"
     clientSocket.send(rcptTo.encode())
-    recv3 = clientSocket.recv(1024)
+    recv3 = clientSocket.recv(1024).decode()
     print(recv3)
     
     # Fill in end
@@ -48,7 +48,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Fill in start
     data = "DATA <XXX> \r\n"
     clientSocket.send(data.encode())
-    recv4 = clientSocket.recv(1024)
+    recv4 = clientSocket.recv(1024).decode()
     print(recv4)
     
     # Fill in end
@@ -58,7 +58,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
  
     clientSocket.send(msg.encode())
     clientSocket.send(endmsg.encode())
-    recv6 = clientSocket.recv(1024)
+    recv6 = clientSocket.recv(1024).decode()
     # Fill in end
 
     # Message ends with a single period.
@@ -70,7 +70,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Fill in start
     #quit = "Quit \r\n"
     clientSocket.send("QUIT \r\n".encode())
-    recv5 = clientSocket.recv(1024)
+    recv5 = clientSocket.recv(1024).decode()
     print(recv5)
     clientSocket.close()
     # Fill in end
