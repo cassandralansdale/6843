@@ -6,6 +6,7 @@ import time
 import select
 import binascii
 
+
 ICMP_ECHO_REQUEST = 8
 MAX_HOPS = 30
 TIMEOUT = 2.0
@@ -116,25 +117,29 @@ def get_route(hostname):
                 #Fill in start
                 #Fetch the icmp type from the IP packet
                 header = recvPacket[20:28]
-                type, code, checksum, packetID, sequence = struct.unpack("bbHHh", header)
+                types, code, checksum, packetID, sequence = struct.unpack("bbHHh", header)
                 #Fill in end
                 try: #try to fetch the hostname
                     #Fill in start
-                    name = "socket.gethostbyaddr(hostname)"
+                    n1 = gethostbyaddr(addr)[0]
+                    temp = n1.split('.')[0]
+                    if (n1 == temp):
+                        n1 = ""
                     #Fill in end
                 except herror:   #if the host does not provide a hostname
                     #Fill in start
-                    print("Not available")
+                    temp = addr
+                    n1 = "Not available"
                     #Fill in end
 
-                if type == 11:
+                if types == 11:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     print('%d, %.0fms, %s, %s' %(ttl,(timeReceived - t)*1000, addr[0], name))
                     #You should add your responses to your lists here
                     #Fill in end
-                elif type == 3:
+                elif types == 3:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     print('%d, %.0fms, %s, %s' %(ttl,(timeReceived - t)*1000, addr[0], name))
@@ -142,7 +147,7 @@ def get_route(hostname):
                     #Fill in start
                     #You should add your responses to your lists here 
                     #Fill in end
-                elif type == 0:
+                elif types == 0:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     print('%d, %.0fms, %s, %s' %(ttl,(timeReceived - t)*1000, addr[0], name))
