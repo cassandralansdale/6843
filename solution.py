@@ -137,13 +137,13 @@ def ping(host, timeout=1):
       #  print(pktRTT[x])
     #print("\n\n\n ------- \n\n\n")
 
-    packet_min = min(pktRTT)
+    packet_min = min(pktRTT) * 1000
     #print(packet_min)
-    packet_avg = sum(pktRTT)/len(pktRTT)
+    packet_avg = sum(pktRTT)/len(pktRTT) * 1000
     #print(packet_avg)
-    packet_max = max(pktRTT)
+    packet_max = max(pktRTT) * 1000
     #print(packet_max)
-    stdev_var = stdev(pktRTT)
+    stdev_var = stdev(pktRTT) * 1000
     #print(stdev_var)
     vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)), str(round(stdev_var,2))]
 
