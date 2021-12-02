@@ -49,7 +49,7 @@ def build_packet():
     # Don’t send the packet yet , just return the final packet in this function.
     myChecksum = 0
     myID = os.getpid() & 0xFFFF
-    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, ID, 1)
+    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum,myID, 1)
     data = struct.pack("d", time.time())
 
     if sys.platform == 'darwin':
@@ -57,7 +57,7 @@ def build_packet():
         myChecksum = htons(myChecksum) & 0xffff
     else:
         myChecksum = htons(myChecksum)
-        header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, ID, 1)
+        header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, myID, 1)
 
     
     
