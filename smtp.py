@@ -12,8 +12,6 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Fill in start
     clientSocket = socket(AF_INET, SOCK_STREAM)
     clientSocket.connect(mailserver)
-    tls = "STARTTLS \r\n"
-    clientSocket.send(tls.encode())
     # Fill in end
     recv = clientSocket.recv(1024).decode()
     print(recv)
