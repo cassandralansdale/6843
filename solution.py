@@ -123,7 +123,7 @@ def ping(host, timeout=1):
     packet_avg = 1 # float(sum(pktRTT)/len(pktRTT))
     packet_max = 1 #max(pktRTT)
     stdev_var = 1
-    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
+    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2))]
     # Send ping requests to a server separated by approximately one second
     for i in range(0,4):
         delay = doOnePing(dest, timeout)
