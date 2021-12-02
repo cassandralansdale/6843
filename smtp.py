@@ -1,7 +1,7 @@
 from socket import *
 
 
-def smtp_client(port=1025, mailserver='127.0.0.1'):
+def smtp_client(port=1025, mailserver='127.0.0.11025'):
     msg = "\r\n My message"
     endmsg = "\r\n.\r\n"
 
@@ -13,7 +13,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     clientSocket = socket(AF_INET, SOCK_STREAM)
     clientSocket.connect(mailserver)
     # Fill in end
-    recv = clientSocket.recv(1024).decode()
+    recv = clientSocket.recv(port).decode()
     print(recv)
     if recv[:3] != '220':
         print('220 reply not received from server.')
@@ -21,7 +21,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Send HELO command and print server response.
     heloCommand = 'HELO Alice\r\n'
     clientSocket.send(heloCommand.encode())
-    recv1 = clientSocket.recv(1024).decode()
+    recv1 = clientSocket.recv(port).decode()
     print(recv1)
     if recv1[:3] != '250':
         print('250 reply not received from server.')
@@ -30,7 +30,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Fill in start
     mailFrom = "<XXX> \r\n"
     clientSocket.send(mailFrom.encode())
-    recv2 = clientSocket.recv(2024).decode()
+    recv2 = clientSocket.recv(port).decode()
     print(recv2)
     # Fill in end
 
@@ -38,7 +38,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Fill in start
     rcptTo = "<XXX> \r\n"
     clientSocket.send(rcptTo.encode())
-    recv3 = clientSocket.recv(1024).decode()
+    recv3 = clientSocket.recv(port).decode()
     print(recv3)
     # Fill in end
 
@@ -46,7 +46,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Fill in start
     data = "XXX \r\n"
     clientSocket.send(data.encode())
-    recv4 = clientSocket.recv(1024).decode()
+    recv4 = clientSocket.recv(port).decode()
     print(recv4)
     # Fill in end
 
@@ -64,7 +64,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Fill in start
     quit = "QUIT \r\n"
     clientSocket.send(quit.encode())
-    recv5 = clientSocket.recv(1024).decode()
+    recv5 = clientSocket.recv(port).decode()
     print(recv5)
     clientSocket.close()
     # Fill in end
