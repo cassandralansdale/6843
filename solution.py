@@ -41,7 +41,7 @@ if recv1[:3] != '250':
 mailFrom = "MAIL FROM: <anyemailid@gmail.com> \r\n"
 clientSocket.send(mailFrom.encode())
 recv2 = clientSocket.recv(1024)
-print("After MAIL FROM command: "+recv2)
+#print("After MAIL FROM command: "+recv2)
 if recv1[:3] != '250':
     print('250 reply not received from server.')
 
@@ -49,7 +49,7 @@ if recv1[:3] != '250':
 rcptTo = "RCPT TO: <destination@gmail.com> \r\n"
 clientSocket.send(rcptTo.encode())
 recv3 = clientSocket.recv(1024)
-print("After RCPT TO command: "+recv3)
+#print("After RCPT TO command: "+recv3)
 if recv1[:3] != '250':
     print('250 reply not received from server.')
 
@@ -57,7 +57,7 @@ if recv1[:3] != '250':
 data = "DATA\r\n"
 clientSocket.send(data.encode())
 recv4 = clientSocket.recv(1024)
-print("After DATA command: "+recv4)
+#print("After DATA command: "+recv4)
 if recv1[:3] != '250':
     print('250 reply not received from server.')
 
@@ -67,7 +67,7 @@ clientSocket.send(subject.encode())
 clientSocket.send(msg.encode())
 clientSocket.send(endmsg.encode())
 recv_msg = clientSocket.recv(1024)
-print("Response after sending message body:"+recv_msg.decode())
+#print("Response after sending message body:"+recv_msg.decode())
 if recv1[:3] != '250':
     print('250 reply not received from server.')
 
