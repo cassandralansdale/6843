@@ -169,6 +169,5 @@ def get_route(hostname):
                 mySocket.close()
 
     return tracelist2
-if __name__ == '__main__':
-    get_route("www.google.com")
+
 
